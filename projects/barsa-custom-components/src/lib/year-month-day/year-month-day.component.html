@@ -1,0 +1,85 @@
+<fd-time style="display: none"></fd-time>
+
+<fd-popover
+  class="relative"
+  [(isOpen)]="isOpen"
+  (isOpenChange)="_onOpenStateChanged($event)"
+  [triggers]="[]"
+  [closeOnEscapeKey]="true"
+  [focusAutoCapture]="false"
+  [focusTrapped]="true"
+>
+  <fd-popover-control>
+    <fd-input-group
+      #inputGroupComponent
+      (addOnButtonClicked)="_addOnButtonClicked()"
+      [button]="true"
+      [disabled]="disabled"
+      [isControl]="true"
+      [isExpanded]="isOpen"
+      glyph="calendar"
+    >
+      <input
+        type="text"
+        class="fd-input"
+        fd-input-group-input
+        [value]="yearMonthDay"
+        (focusout)="_timeInputChanged($any($event.currentTarget).value)"
+        (keyup.enter)="_timeInputChanged($any($event.currentTarget).value)"
+        [readonly]="true"
+      />
+    </fd-input-group>
+  </fd-popover-control>
+  <fd-popover-body>
+    <ng-content></ng-content>
+    <div class="fd-time absolute">
+      <div class="times-columns">
+        <div>
+          <fd-time-column
+            [active]="isActive"
+            [rows]="yearsViewItems"
+            [activeValue]="activeHourViewItem"
+            [timeConfig]="getYearConfig"
+            columnTranslationsPreset="hours"
+            [spinners]="spinnerButtons"
+            (activeValueChange)="year = $event.value.value"
+          ></fd-time-column>
+        </div>
+        <div>
+          <fd-time-column
+            [active]="isActive"
+            [rows]="monthViewItems"
+            [timeConfig]="getMonthConfig"
+            columnTranslationsPreset="hours"
+            [spinners]="spinnerButtons"
+            (activeValueChange)="month = $event.value.value"
+          ></fd-time-column>
+        </div>
+        <div>
+          <fd-time-column
+            [active]="isActive"
+            [rows]="daysViewItems"
+            [timeConfig]="getDayConfig"
+            columnTranslationsPreset="hours"
+            [spinners]="spinnerButtons"
+            (activeValueChange)="day = $event.value.value"
+          ></fd-time-column>
+        </div>
+      </div>
+      <div class="times-buttons">
+        <div fd-bar barDesign="footer">
+          <div fd-bar-right>
+            <button
+              class="flex-1"
+              fd-button
+              label="تایید"
+              fdType="emphasized"
+              (click)="changeTimes()"
+            ></button>
+            <button fd-button label="لغو" (click)="isOpen = false"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fd-popover-body>
+</fd-popover>

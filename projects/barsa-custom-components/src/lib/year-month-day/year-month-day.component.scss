@@ -1,0 +1,43 @@
+.main {
+  margin-right: 100px;
+  display: flex;
+  .item {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+  }
+}
+
+.relative {
+  position: relative;
+  margin-right: 100px;
+}
+.absolute {
+  position: absolute;
+  background-color: white;
+  z-index: 2;
+  box-shadow: 0px 3px 4px grey;
+  border: 1px solid #8080804f;
+  border-radius: 5px;
+}
+
+.times-columns {
+  display: flex;
+  margin-bottom: 16px;
+  div {
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+}
+
+.fd-time {
+  flex-direction: column;
+}
+
+.times-buttons {
+  display: flex;
+  .flex-1 {
+    flex: 1;
+    margin-left: 8px;
+  }
+}

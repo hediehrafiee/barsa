@@ -1,0 +1,12 @@
+<fd-side-nav>
+  <div fd-side-nav-main>
+    <ul fd-nested-list [textOnly]="true">
+      <li fd-nested-list-item *ngFor="let tab of tabs" [expanded]="false">
+        <bcc-menu-child
+          [tab]="tab"
+          (selectedTabChanged)="onTabChanged($event)"
+        ></bcc-menu-child>
+      </li>
+    </ul>
+  </div>
+</fd-side-nav>

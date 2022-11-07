@@ -1,0 +1,57 @@
+<ng-container *ngIf="!tab.children.length; else isNested">
+  <a fd-nested-list-link (click)="selectTab(tab.tabId)">
+    <span fd-nested-list-title> {{ tab.title }} </span>
+  </a>
+</ng-container>
+<ng-template #isNested>
+  <!-- <fd-nested-list-popover>
+    <div fd-nested-list-content>
+      <a fd-nested-list-link>
+        <span fd-nested-list-title>{{ tab.title }}</span>
+      </a>
+      <button fd-nested-list-expand-icon></button>
+    </div>
+    <ul fd-nested-list>
+      <li *ngFor="let child of tab.children" fd-nested-list-item>
+        <a
+          (click)="selectTab(child.id)"
+          [style.display]="child.children.length ? 'none' : 'block'"
+          fd-nested-list-link
+        >
+          <span fd-nested-list-title>
+            {{ !child.children.length ? child.title : "" }}</span
+          >
+        </a>
+        <app-menu-child
+          *ngIf="child.children.length"
+          [tab]="child"
+        ></app-menu-child>
+      </li>
+    </ul>
+  </fd-nested-list-popover> -->
+  <div fd-nested-list-content>
+    <a fd-nested-list-link (click)="selectTab(tab.tabId)">
+      <span fd-nested-list-title>{{ tab.title }}</span>
+    </a>
+    <button fd-nested-list-expand-icon></button>
+  </div>
+
+  <ul fd-nested-list>
+    <li fd-nested-list-item *ngFor="let child of tab.children">
+      <a
+        (click)="selectTab(child.tabId)"
+        [style.display]="child.children.length ? 'none' : 'block'"
+        fd-nested-list-link
+      >
+        <span fd-nested-list-title>{{
+          !child.children.length ? child.title : ""
+        }}</span>
+      </a>
+      <bcc-menu-child
+        *ngIf="child.children.length"
+        [tab]="child"
+        (selectedTabChanged)="selectTab($event)"
+      ></bcc-menu-child>
+    </li>
+  </ul>
+</ng-template>

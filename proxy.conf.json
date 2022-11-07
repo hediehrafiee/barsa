@@ -1,0 +1,86 @@
+{
+  "/api": {
+    "target": "http://localhost:4101",
+    "secure": false
+  },
+  "/IH.ashx": {
+    "target": "http://localhost:4101",
+    "secure": false
+  },
+  "/signalr/hub": {
+    "target": "http://localhost:4101",
+    "secure": false
+  },
+  "/signalr/*": {
+    "target": "http://localhost:4101",
+    "secure": false,
+    "ws": true
+  },
+  "/Localization": {
+    "target": "http://localhost:4101",
+    "secure": false
+  },
+  "/Lib": {
+    "target": "http://localhost:4101",
+    "secure": false
+  },
+  "/Customization": {
+    "target": "http://localhost:4101",
+    "secure": false
+  },
+  "/Scripts": {
+    "target": "http://localhost:4101",
+    "secure": false
+  },
+  "/Fields/File/Base/FileUploadFormMulti.ashx": {
+    "target": "http://localhost:4101",
+    "secure": false
+  },
+  "/Fields/File/Base/FileDownload.aspx": {
+    "target": "http://localhost:4101",
+    "secure": false
+  },
+  "/Lib/ext-3.4.1/resources": {
+    "target": "http://localhost:4101",
+    "secure": false
+  },
+  "/wopi/": {
+    "target": "http://localhost:4101",
+    "secure": false
+  },
+  "/Lib/gantt-master": {
+    "target": "http://localhost:4101",
+    "secure": false
+  },
+  "/Report94/AspViewer": {
+    "target": "http://localhost:4101",
+    "secure": false
+  },
+  "/DXR.axd": {
+    "target": "http://localhost:4101",
+    "secure": false
+  },
+  "/DXB.axd": {
+    "target": "http://localhost:4101",
+    "secure": false
+  },
+  "/WebResource.axd": {
+    "target": "http://localhost:4101",
+    "secure": false
+  },
+  "/MyStyles.css": {
+    "target": "http://localhost:4101",
+    "secure": false
+  },
+  "/GenericErrorPage.aspx": {
+    "target": "http://localhost:4101",
+    "secure": false
+  },
+  "/assets/Images": {
+    "target": "http://localhost:4200",
+    "pathRewrite": {
+      "^/assets/Images/": "/assets/images/"
+    },
+    "secure": false
+  }
+}
