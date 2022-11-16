@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, OnInit } from '@angular/core';
 import {
   FormBaseComponent,
   FormPanelService,
@@ -21,8 +21,17 @@ export class FormHorizontalTabComponent
 {
   // public layout$: Observable<LayoutSetting | null>;
 
+  @HostListener('window:scroll', ['$event']) // for window scroll events
+  onScroll(event) {
+    console.log('here')
+  }
+
   ngOnInit(): void {
     super.ngOnInit();
     // this.layout$ = this.layout94;
+  }
+
+  onWindowScroll(event) {
+    console.log('event', event)
   }
 }

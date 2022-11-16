@@ -1,85 +1,105 @@
 <fd-time style="display: none"></fd-time>
-
-<fd-popover
-  class="relative"
-  [(isOpen)]="isOpen"
-  (isOpenChange)="_onOpenStateChanged($event)"
-  [triggers]="[]"
-  [closeOnEscapeKey]="true"
-  [focusAutoCapture]="false"
-  [focusTrapped]="true"
->
-  <fd-popover-control>
-    <fd-input-group
-      #inputGroupComponent
-      (addOnButtonClicked)="_addOnButtonClicked()"
-      [button]="true"
-      [disabled]="disabled"
-      [isControl]="true"
-      [isExpanded]="isOpen"
-      glyph="calendar"
+<div class="test">
+  <div class="test-child">
+    <fd-popover
+      class="relative"
+      [(isOpen)]="isOpen"
+      [triggers]="[]"
+      [closeOnEscapeKey]="true"
+      [focusAutoCapture]="false"
+      [focusTrapped]="true"
     >
-      <input
-        type="text"
-        class="fd-input"
-        fd-input-group-input
-        [value]="yearMonthDay"
-        (focusout)="_timeInputChanged($any($event.currentTarget).value)"
-        (keyup.enter)="_timeInputChanged($any($event.currentTarget).value)"
-        [readonly]="true"
-      />
-    </fd-input-group>
-  </fd-popover-control>
-  <fd-popover-body>
-    <ng-content></ng-content>
-    <div class="fd-time absolute">
-      <div class="times-columns">
-        <div>
-          <fd-time-column
-            [active]="isActive"
-            [rows]="yearsViewItems"
-            [activeValue]="activeHourViewItem"
-            [timeConfig]="getYearConfig"
-            columnTranslationsPreset="hours"
-            [spinners]="spinnerButtons"
-            (activeValueChange)="year = $event.value.value"
-          ></fd-time-column>
-        </div>
-        <div>
-          <fd-time-column
-            [active]="isActive"
-            [rows]="monthViewItems"
-            [timeConfig]="getMonthConfig"
-            columnTranslationsPreset="hours"
-            [spinners]="spinnerButtons"
-            (activeValueChange)="month = $event.value.value"
-          ></fd-time-column>
-        </div>
-        <div>
-          <fd-time-column
-            [active]="isActive"
-            [rows]="daysViewItems"
-            [timeConfig]="getDayConfig"
-            columnTranslationsPreset="hours"
-            [spinners]="spinnerButtons"
-            (activeValueChange)="day = $event.value.value"
-          ></fd-time-column>
-        </div>
-      </div>
-      <div class="times-buttons">
-        <div fd-bar barDesign="footer">
-          <div fd-bar-right>
-            <button
-              class="flex-1"
-              fd-button
-              label="تایید"
-              fdType="emphasized"
-              (click)="changeTimes()"
-            ></button>
-            <button fd-button label="لغو" (click)="isOpen = false"></button>
+      <fd-popover-control>
+        <fd-input-group
+          #inputGroupComponent
+          (addOnButtonClicked)="onAdOnButtonClicked()"
+          [button]="true"
+          [disabled]="false"
+          [isControl]="true"
+          [isExpanded]="isOpen"
+          glyph="calendar"
+        >
+          <input
+            type="text"
+            class="fd-input"
+            fd-input-group-input
+            [value]="yearMonthDay"
+            [readonly]="true"
+          />
+        </fd-input-group>
+      </fd-popover-control>
+      <fd-popover-body>
+        <ng-content></ng-content>
+        <div class="fd-time absolute">
+          <div class="times-columns">
+            <div>
+              <fd-time-column
+                *ngIf="showYear"
+                [active]="isActive"
+                [rows]="yearsViewItems"
+                [timeConfig]="getYearConfig"
+                (activeValueChange)="selectedYear = $event.value.value"
+                [activeValue]="activeYearViewItem"
+              ></fd-time-column>
+            </div>
+            <div>
+              <fd-time-column
+                *ngIf="showMonth"
+                [active]="isActive"
+                [rows]="monthViewItems"
+                [timeConfig]="getMonthConfig"
+                (activeValueChange)="selectedMonth = $event.value.value"
+                [activeValue]="activeMonthViewItem"
+              ></fd-time-column>
+            </div>
+            <div>
+              <fd-time-column
+                *ngIf="showDay"
+                [active]="isActive"
+                [rows]="daysViewItems"
+                [timeConfig]="getDayConfig"
+                (activeValueChange)="selectedDay = $event.value.value"
+                [activeValue]="activeDayViewItem"
+              ></fd-time-column>
+            </div>
+            <div>
+              <fd-time-column
+                *ngIf="showHour"
+                [active]="isActive"
+                [rows]="hoursViewItems"
+                [timeConfig]="getHourConfig"
+                (activeValueChange)="selectedHours = $event.value.value"
+                [activeValue]="activeHoursViewItem"
+              ></fd-time-column>
+            </div>
+            <div>
+              <fd-time-column
+                *ngIf="showMinute"
+                [active]="isActive"
+                [rows]="minutesViewItems"
+                [timeConfig]="getMinuteConfig"
+                (activeValueChange)="selectedMinutes = $event.value.value"
+                [activeValue]="activeMinutesViewItem"
+              ></fd-time-column>
+            </div>
+          </div>
+          <div fd-bar barDesign="footer">
+            <div fd-bar-right>
+              <fd-button-bar
+                fd-button
+                label="تایید"
+                fdType="emphasized"
+                (click)="savechangeTimes()"
+              ></fd-button-bar>
+              <fd-button-bar
+                fd-button
+                label="لغو"
+                (click)="cancel()"
+              ></fd-button-bar>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </fd-popover-body>
-</fd-popover>
+      </fd-popover-body>
+    </fd-popover>
+  </div>
+</div>

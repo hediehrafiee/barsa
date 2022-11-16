@@ -12,18 +12,12 @@
   position: relative;
   margin-right: 100px;
 }
-.absolute {
-  position: absolute;
-  background-color: white;
-  z-index: 2;
-  box-shadow: 0px 3px 4px grey;
-  border: 1px solid #8080804f;
-  border-radius: 5px;
-}
+
 
 .times-columns {
   display: flex;
   margin-bottom: 16px;
+  padding: 16px;
   div {
     margin-right: 5px;
     margin-left: 5px;
@@ -40,4 +34,9 @@
     flex: 1;
     margin-left: 8px;
   }
+}
+
+
+.fd-time.absolute {
+  padding: 0px!important;
 }

@@ -26,6 +26,8 @@ import { MenuComponent } from './menu/menu.component';
 import { FormHorizontalContainerComponent } from './form-horizontal-tab/form-horizontal-container/form-horizontal-container.component';
 import { UploadPersonalPictureComponent } from './upload-personal-picture/upload-personal-picture.component';
 import { YearMonthDayComponent } from './year-month-day/year-month-day.component';
+import { CdkTableModule } from '@angular/cdk/table';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const components = [
   FormHorizontalTabComponent,
@@ -46,7 +48,9 @@ const components = [
     BarsaNovinRayCoreModule,
     BarsaSapUiModule,
     FormsModule,
-    FdDatetimeModule,
+    FdDatetimeModule,        
+    CdkTableModule,
+    DragDropModule,
   ],
   exports: [],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
