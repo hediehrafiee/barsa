@@ -28,57 +28,68 @@
           />
         </fd-input-group>
       </fd-popover-control>
+
       <fd-popover-body>
         <ng-content></ng-content>
         <div class="fd-time absolute">
           <div class="times-columns">
             <div>
               <fd-time-column
-                *ngIf="showYear"
+                *ngIf="showTimeColumns.years"
                 [active]="isActive"
                 [rows]="yearsViewItems"
                 [timeConfig]="getYearConfig"
-                (activeValueChange)="selectedYear = $event.value.value"
+                (activeValueChange)="
+                  changeValueOfTimeColumn('YEAR', $event.value.value)
+                "
                 [activeValue]="activeYearViewItem"
               ></fd-time-column>
             </div>
             <div>
               <fd-time-column
-                *ngIf="showMonth"
+                *ngIf="showTimeColumns.months"
                 [active]="isActive"
                 [rows]="monthViewItems"
                 [timeConfig]="getMonthConfig"
-                (activeValueChange)="selectedMonth = $event.value.value"
+                (activeValueChange)="
+                  changeValueOfTimeColumn('MONTH', $event.value.value)
+                "
                 [activeValue]="activeMonthViewItem"
               ></fd-time-column>
             </div>
             <div>
               <fd-time-column
-                *ngIf="showDay"
+                *ngIf="showTimeColumns.days"
                 [active]="isActive"
                 [rows]="daysViewItems"
                 [timeConfig]="getDayConfig"
-                (activeValueChange)="selectedDay = $event.value.value"
+                (activeValueChange)="
+                  changeValueOfTimeColumn('DAY', $event.value.value)
+                "
                 [activeValue]="activeDayViewItem"
               ></fd-time-column>
             </div>
             <div>
               <fd-time-column
-                *ngIf="showHour"
+                *ngIf="showTimeColumns.hours"
                 [active]="isActive"
                 [rows]="hoursViewItems"
                 [timeConfig]="getHourConfig"
-                (activeValueChange)="selectedHours = $event.value.value"
+                (activeValueChange)="
+                  changeValueOfTimeColumn('HOUR', $event.value.value)
+                "
                 [activeValue]="activeHoursViewItem"
               ></fd-time-column>
             </div>
             <div>
               <fd-time-column
-                *ngIf="showMinute"
+                *ngIf="showTimeColumns.minutes"
                 [active]="isActive"
                 [rows]="minutesViewItems"
                 [timeConfig]="getMinuteConfig"
-                (activeValueChange)="selectedMinutes = $event.value.value"
+                (activeValueChange)="
+                  changeValueOfTimeColumn('MINUTE', $event.value.value)
+                "
                 [activeValue]="activeMinutesViewItem"
               ></fd-time-column>
             </div>

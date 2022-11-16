@@ -7,6 +7,23 @@ export declare class SelectableViewItem<T> {
   label: string;
   index?: number;
 }
+
+export interface milliSecondToDate {
+  year: number;
+  month: number;
+  day: number;
+  hour: number;
+  minute: number;
+}
+
+export interface showTimeColumns {
+  years: boolean;
+  months: boolean;
+  days: boolean;
+  hours: boolean;
+  minutes: boolean;
+}
+
 type ViewItem = SelectableViewItem<number>;
 
 @Component({
@@ -32,11 +49,13 @@ export class YearMonthDayComponent
   public submitHours: number = 0;
   public submitMinutes: number = 0;
 
-  public showYear: boolean = true;
-  public showMonth: boolean = true;
-  public showDay: boolean = true;
-  public showHour: boolean = true;
-  public showMinute: boolean = true;
+  public showTimeColumns: showTimeColumns = {
+    years: true,
+    months: true,
+    days: true,
+    hours: true,
+    minutes: true,
+  };
 
   public activeYearViewItem?: ViewItem;
   public activeMonthViewItem?: ViewItem;
@@ -127,14 +146,16 @@ export class YearMonthDayComponent
       );
     }
 
-    this.showYear = this.parameters.Year;
-    this.showMonth = this.parameters.Month;
-    this.showDay = this.parameters.Day;
+    this.showTimeColumns.years = this.parameters.Year;
+    this.showTimeColumns.months = this.parameters.Month;
+    this.showTimeColumns.days = this.parameters.Day;
+    this.showTimeColumns.hours = this.parameters.Hours;
+    this.showTimeColumns.minutes = this.parameters.Minutes;
 
     this.valueToMilisecond(this.value);
   }
 
-  public valueToMilisecond(value: string) {
+  public valueToMilisecond(value: string): void {
     const splitedValue = value.split('.');
     if (splitedValue.length < 2 || !value) return;
 
@@ -142,7 +163,7 @@ export class YearMonthDayComponent
     const minutes = Number(splitedValue[1]);
     const milMinutes = isNaN(minutes) ? 0 : minutes * 60000;
     const hoursMilisecond = isNaN(hours) ? 0 : hours * (60000 * 60);
-    this.resultOfMS = this.ms(milMinutes + hoursMilisecond);
+    this.resultOfMS = this.milliSecondToDate(milMinutes + hoursMilisecond);
 
     this.submitYear = this.resultOfMS.year;
     this.submitMonth = this.resultOfMS.month;
@@ -151,32 +172,34 @@ export class YearMonthDayComponent
     this.submitMinutes = this.resultOfMS.minute;
   }
 
-  onAdOnButtonClicked() {
+  public onAdOnButtonClicked(): void {
     this.isOpen = !this.isOpen;
     this._setActiveItems();
   }
-  private _resetActiveItems() {
+
+  private _resetActiveItems(): void {
     this.activeYearViewItem = undefined;
     this.activeMonthViewItem = undefined;
     this.activeDayViewItem = undefined;
     this.activeHoursViewItem = undefined;
     this.activeMinutesViewItem = undefined;
   }
-  private _setActiveItems() {
+
+  private _setActiveItems(): void {
     const yearIndex = this.yearsViewItems.findIndex(
-      (c) => c.value === this.submitYear
+      (y: ViewItem) => y.value === this.submitYear
     );
     const monthIndex = this.monthViewItems.findIndex(
-      (c) => c.value === this.submitMonth
+      (m: ViewItem) => m.value === this.submitMonth
     );
     const dayIndex = this.daysViewItems.findIndex(
-      (c) => c.value === this.submitDay
+      (d: ViewItem) => d.value === this.submitDay
     );
     const hoursIndex = this.hoursViewItems.findIndex(
-      (c) => c.value === this.submitHours
+      (h: ViewItem) => h.value === this.submitHours
     );
     const minutesIndex = this.minutesViewItems.findIndex(
-      (c) => c.value === this.submitMinutes
+      (m: ViewItem) => m.value === this.submitMinutes
     );
 
     this.activeYearViewItem = this.yearsViewItems[yearIndex];
@@ -193,15 +216,11 @@ export class YearMonthDayComponent
     const monthHours: number = this.selectedMonth * 30 * 24;
     const dayHours: number = this.selectedDay * 24;
 
-    const hours = yearsHours + monthHours + dayHours + this.selectedHours;
-    const minutes = this.selectedMinutes;
-
-    console.log(
-      `${String(hours).padStart(2, '0')}.${String(minutes).padStart(2, '0')}`
-    );
-    this.valueChange.emit(
-      `${String(hours).padStart(2, '0')}.${String(minutes).padStart(2, '0')}`
-    );
+    const hours = String(
+      yearsHours + monthHours + dayHours + this.selectedHours
+    ).padStart(2, '0');
+    const minutes = String(this.selectedMinutes).padStart(2, '0');
+    this.valueChange.emit(`${hours}.${minutes}`);
 
     this.submitYear = this.selectedYear;
     this.submitMonth = this.selectedMonth;
@@ -212,7 +231,7 @@ export class YearMonthDayComponent
     this._setActiveItems();
   }
 
-  public cancel() {
+  public cancel(): void {
     this.isOpen = false;
 
     this.selectedYear = this.submitYear;
@@ -220,13 +239,40 @@ export class YearMonthDayComponent
     this.selectedDay = this.submitDay;
     this.selectedHours = this.submitHours;
     this.selectedMinutes = this.submitMinutes;
+
     this._resetActiveItems();
   }
 
-  private ms(t) {
+  public changeValueOfTimeColumn(
+    itemType: 'YEAR' | 'MONTH' | 'DAY' | 'HOUR' | 'MINUTE',
+    value
+  ): void {
+    switch (itemType) {
+      case 'YEAR':
+        this.selectedYear = value;
+        break;
+      case 'MONTH':
+        this.selectedMonth = value;
+        break;
+      case 'DAY':
+        this.selectedDay = value;
+        break;
+      case 'HOUR':
+        this.selectedHours = value;
+        break;
+      case 'MINUTE':
+        this.selectedMinutes = value;
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  private milliSecondToDate(ms: number): milliSecondToDate {
     let year, month, day, hour, minute, second;
 
-    second = Math.floor(t / 1000);
+    second = Math.floor(ms / 1000);
     minute = Math.floor(second / 60);
     second = second % 60;
     hour = Math.floor(minute / 60);
