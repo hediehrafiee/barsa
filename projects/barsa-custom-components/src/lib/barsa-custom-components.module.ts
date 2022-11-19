@@ -14,7 +14,6 @@ import { CommonModule } from '@angular/common';
 import {
   FdDatetimeModule,
   FundamentalNgxCoreModule,
-  TimeModule,
 } from '@fundamental-ngx/core';
 import { BarsaSapUiModule } from 'barsa-sap-ui';
 
@@ -28,12 +27,14 @@ import { UploadPersonalPictureComponent } from './upload-personal-picture/upload
 import { YearMonthDayComponent } from './year-month-day/year-month-day.component';
 import { CdkTableModule } from '@angular/cdk/table';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { RecordListComponent } from './record-list/record-list.component';
 
 const components = [
   FormHorizontalTabComponent,
   MenuChildComponent,
   UploadPersonalPictureComponent,
   YearMonthDayComponent,
+  RecordListComponent,
 ];
 @NgModule({
   declarations: [
@@ -48,7 +49,7 @@ const components = [
     BarsaNovinRayCoreModule,
     BarsaSapUiModule,
     FormsModule,
-    FdDatetimeModule,        
+    FdDatetimeModule,
     CdkTableModule,
     DragDropModule,
   ],
