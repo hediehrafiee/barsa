@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { LayoutSetting } from 'barsa-novin-ray-core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'bcc-menu-child',
@@ -9,10 +8,9 @@ import { LayoutSetting } from 'barsa-novin-ray-core';
 export class MenuChildComponent {
   @Input() tab: any;
   @Output() selectedTabChanged = new EventEmitter<number>();
-  public selectedTab: number = 0;
-  constructor() {}
+  @Input() selectedTabId;
+
   selectTab(id: number): void {
-    this.selectedTab = id;
     this.selectedTabChanged.emit(id);
   }
 }

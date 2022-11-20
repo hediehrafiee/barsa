@@ -40,4 +40,8 @@ export class RecordListComponent
       this.viewSetting.Title
     );
   }
+
+  edit(mo, index) {
+    this.rowClick.emit({ mo, index });
+  }
 }

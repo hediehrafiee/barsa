@@ -4,6 +4,7 @@
       <app-menu
         [tabs]="tabs$ | async"
         (tabChanged)="onTabChanged($event)"
+        [selectedTabId]="selectedTabId$ | async"
       ></app-menu>
     </fd-card>
   </div>

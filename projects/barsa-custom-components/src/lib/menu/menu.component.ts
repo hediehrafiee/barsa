@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { LayoutSetting } from 'barsa-novin-ray-core';
 
 @Component({
@@ -6,13 +6,13 @@ import { LayoutSetting } from 'barsa-novin-ray-core';
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent {
   @Output() tabChanged = new EventEmitter<number>();
   @Input() tabs: any;
+  @Input() selectedTabId: any;
 
-  ngOnInit(): void {
-    console.log('tabs', this.tabs);
-  }
+  open: boolean = false;
+
   public onTabChanged(id: number) {
     this.tabChanged.emit(id);
   }
