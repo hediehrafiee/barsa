@@ -28,6 +28,8 @@ import { YearMonthDayComponent } from './year-month-day/year-month-day.component
 import { CdkTableModule } from '@angular/cdk/table';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { RecordListComponent } from './record-list/record-list.component';
+import { UploadListOfPictureComponent } from './upload-list-of-picture/upload-list-of-picture.component';
+import { SkeletonComponent } from './skeleton/skeleton.component';
 
 const components = [
   FormHorizontalTabComponent,
@@ -35,6 +37,7 @@ const components = [
   UploadPersonalPictureComponent,
   YearMonthDayComponent,
   RecordListComponent,
+  UploadListOfPictureComponent,
 ];
 @NgModule({
   declarations: [
@@ -42,6 +45,7 @@ const components = [
     FormHorizontalTabItemsComponent,
     MenuComponent,
     FormHorizontalContainerComponent,
+    SkeletonComponent,
   ],
   imports: [
     CommonModule,

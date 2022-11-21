@@ -1,0 +1,7 @@
+<div
+  *ngIf="type !== 'USER'; else notUser"
+  class="skeleton"
+  [style.width]="width ? width : defaultWidthTypes[type].width"
+  [style.height]="height ? height : defaultWidthTypes[type].height"
+  [ngClass]="type"
+></div>
