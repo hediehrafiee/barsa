@@ -1,7 +1,8 @@
 <div
-  *ngIf="type !== 'USER'; else notUser"
+  *ngIf="type !== 'USER'; else isUser"
   class="skeleton"
   [style.width]="width ? width : defaultWidthTypes[type].width"
   [style.height]="height ? height : defaultWidthTypes[type].height"
   [ngClass]="type"
 ></div>
+<ng-template #isUser></ng-template>
