@@ -10,38 +10,15 @@
         >
           <h5 fd-panel-title id="panel-expandable-title-1">کارت ملی</h5>
           <div fd-panel-content ariaLabel="Panel Content" id="panel-content-1">
-            <fd-layout-grid>
-              <div fdLayoutGridRow>
-                <div [fdLayoutGridCol]="6">
-                  <bcc-skeleton [type]="'CIRCLE'"></bcc-skeleton>
-
-                  <bcc-skeleton [type]="'LINE'"></bcc-skeleton>
-                  <bcc-skeleton [type]="'SQUARE'"></bcc-skeleton>
-                  <bcc-skeleton [type]="'RECTANGLE'"></bcc-skeleton>
-
-                  <div class="upload-container">
-                    <h5>جلوی کارت شناسایی</h5>
-                    <img
-                      width="200px"
-                      src="assets/images/skeletons/4.png"
-                      alt=""
-                    />
-                    <button fd-button label="آپلود"></button>
-                  </div>
-                </div>
-                <div [fdLayoutGridCol]="6">
-                  <div class="upload-container">
-                    <h5>پشت کارت شناسایی</h5>
-                    <img
-                      width="200px"
-                      src="assets/images/skeletons/34.webp"
-                      alt=""
-                    />
-                    <button fd-button label="آپلود"></button>
-                  </div>
-                </div>
+            <div class="w-6">
+              <div class="upload-container">
+                <h5>جلوی کارت شناسایی</h5>
+                <bcc-skeleton-loader
+                  [type]="'IdentificationCard'"
+                ></bcc-skeleton-loader>
+                <button fd-button label="آپلود"></button>
               </div>
-            </fd-layout-grid>
+            </div>
           </div>
         </fd-panel>
       </fd-card>
@@ -58,7 +35,11 @@
           <div fd-panel-content ariaLabel="Panel Content" id="panel-content-1">
             <div class="upload-container">
               <h5>تمام صفحات شناسنامه</h5>
-              <img width="200px" src="assets/images/skeletons/2.gif" alt="" />
+              <div class="w-6">
+                <bcc-skeleton-loader
+                  [type]="'BirthCertificat'"
+                ></bcc-skeleton-loader>
+              </div>
               <button fd-button label="آپلود"></button>
             </div>
           </div>
@@ -77,7 +58,9 @@
           <div fd-panel-content ariaLabel="Panel Content" id="panel-content-1">
             <div class="upload-container">
               <h5>تمام صفحات مدارک</h5>
-              <img width="200px" src="assets/images/skeletons/6.png" alt="" />
+              <div class="w-6">
+                <bcc-skeleton-loader [type]="'Documents'"></bcc-skeleton-loader>
+              </div>
               <button fd-button label="آپلود"></button>
             </div>
           </div>

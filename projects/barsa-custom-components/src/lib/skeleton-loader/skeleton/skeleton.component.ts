@@ -10,6 +10,7 @@ export class SkeletonComponent implements OnInit {
   @Input() width?: string;
   @Input() height?: string;
   @Input() count: number = 1;
+  @Input() shine: boolean = false;
 
   public defaultWidthTypes = {
     LINE: {
@@ -29,12 +30,16 @@ export class SkeletonComponent implements OnInit {
       height: '80px',
     },
     USER: {
-      width: '50px',
-      height: '67px',
+      width: '64px',
+      height: '64px',
     },
   };
 
+  public items = [];
+
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.items.length = this.count;
+  }
 }

@@ -29,7 +29,8 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { RecordListComponent } from './record-list/record-list.component';
 import { UploadListOfPictureComponent } from './upload-list-of-picture/upload-list-of-picture.component';
-import { SkeletonComponent } from './skeleton/skeleton.component';
+import { SkeletonLoaderComponent } from './skeleton-loader/skeleton-loader.component';
+import { SkeletonComponent } from './skeleton-loader/skeleton/skeleton.component';
 
 const components = [
   FormHorizontalTabComponent,
@@ -38,6 +39,7 @@ const components = [
   YearMonthDayComponent,
   RecordListComponent,
   UploadListOfPictureComponent,
+  SkeletonLoaderComponent,
 ];
 @NgModule({
   declarations: [

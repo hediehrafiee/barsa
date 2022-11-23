@@ -1,0 +1,17 @@
+:host {
+  width: 100%;
+}
+
+.card {
+  border-radius: 5px;
+  padding: 25px 15px 20px 20px;
+  box-shadow: 0px 1px 3px 0px grey;
+
+  .pr-2 {
+    padding-right: 20px;
+  }
+
+  .mt-2 {
+    margin-top: 20px;
+  }
+}
