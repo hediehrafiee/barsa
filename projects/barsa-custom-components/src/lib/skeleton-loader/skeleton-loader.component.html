@@ -67,7 +67,7 @@
             [type]="'USER'"
             [width]="'30px'"
             [height]="'40px'"
-            [shine]="false"
+            [shine]="shine"
           ></bcc-skeleton>
         </div>
         <div class="flex-1 pr-2">
@@ -75,13 +75,13 @@
             [type]="'LINE'"
             [count]="1"
             [width]="'30%'"
-            [shine]="false"
+            [shine]="shine"
           ></bcc-skeleton>
           <bcc-skeleton
             [type]="'LINE'"
             [count]="1"
             [width]="'50%'"
-            [shine]="false"
+            [shine]="shine"
           ></bcc-skeleton>
         </div>
       </div>
@@ -91,7 +91,7 @@
           [count]="1"
           [width]="'70%'"
           [height]="'40px'"
-          [shine]="false"
+          [shine]="shine"
         ></bcc-skeleton>
       </div>
 
@@ -99,7 +99,7 @@
         [type]="'RECTANGLE'"
         [count]="1"
         [height]="'70px'"
-        [shine]="false"
+        [shine]="shine"
       ></bcc-skeleton>
 
       <div class="flex w-full">
@@ -108,7 +108,7 @@
             [type]="'RECTANGLE'"
             [count]="1"
             [height]="'30px'"
-            [shine]="false"
+            [shine]="shine"
           ></bcc-skeleton>
         </div>
         <div class="flex-1 pr-2">
@@ -116,7 +116,7 @@
             [type]="'RECTANGLE'"
             [count]="1"
             [height]="'30px'"
-            [shine]="false"
+            [shine]="shine"
           ></bcc-skeleton>
         </div>
       </div>
@@ -126,9 +126,18 @@
           [type]="'LINE'"
           [count]="3"
           [width]="'100%'"
-          [shine]="false"
+          [shine]="shine"
         ></bcc-skeleton>
       </div>
     </div>
+  </ng-container>
+  <ng-container *ngSwitchDefault>
+    <bcc-skeleton
+      [type]="'SQUARE'"
+      [count]="1"
+      [width]="'100px'"
+      [height]="'100px'"
+      [shine]="true"
+    ></bcc-skeleton>
   </ng-container>
 </ng-container>

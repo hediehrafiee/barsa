@@ -31,6 +31,7 @@ import { RecordListComponent } from './record-list/record-list.component';
 import { UploadListOfPictureComponent } from './upload-list-of-picture/upload-list-of-picture.component';
 import { SkeletonLoaderComponent } from './skeleton-loader/skeleton-loader.component';
 import { SkeletonComponent } from './skeleton-loader/skeleton/skeleton.component';
+import { UploadFileComponent } from './upload-file/upload-file.component';
 
 const components = [
   FormHorizontalTabComponent,
@@ -40,6 +41,7 @@ const components = [
   RecordListComponent,
   UploadListOfPictureComponent,
   SkeletonLoaderComponent,
+  UploadFileComponent,
 ];
 @NgModule({
   declarations: [
