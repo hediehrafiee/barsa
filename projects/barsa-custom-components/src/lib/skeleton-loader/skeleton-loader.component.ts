@@ -6,6 +6,6 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./skeleton-loader.component.scss'],
 })
 export class SkeletonLoaderComponent {
-  @Input() type: 'BirthCertificat' | 'IdentificationCard' | 'Documents';
+  @Input() type;
   @Input() shine: boolean = false;
 }

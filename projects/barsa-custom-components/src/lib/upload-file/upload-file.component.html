@@ -1,17 +1,57 @@
-<fd-panel
-  [(expanded)]="expanded"
-  expandId="panel-expand-1"
-  expandAriaLabel="Panel Expand"
-  expandAriaLabelledBy="panel-expandable-title-1"
->
-  <h5 fd-panel-title id="panel-expandable-title-1">شناسنامه</h5>
-  <div fd-panel-content ariaLabel="Panel Content" id="panel-content-1">
-    <div class="upload-container">
-      <h5>تمام صفحات شناسنامه</h5>
-      <div class="w-6">
-        <bcc-skeleton-loader [type]="'BirthCertificat'"></bcc-skeleton-loader>
-      </div>
-      <button fd-button label="آپلود"></button>
+<div fd-panel-content ariaLabel="Panel Content" id="panel-content-1">
+  <ng-container *ngIf="value.length">
+    <div class="image-container">
+      <ng-container *ngFor="let item of value">
+        <div>
+          <fd-card>
+            <img
+              class="cursor-pointer"
+              *ngIf="!item.icon"
+              [src]="item.url"
+              [alt]="item.FileName"
+              (click)="openLightBox(item.url)"
+            />
+            <img *ngIf="item.icon" [src]="item.icon" [alt]="item.FileName" />
+            <p>{{ item.FileName }}</p>
+          </fd-card>
+        </div>
+      </ng-container>
     </div>
+  </ng-container>
+  <ng-container *ngIf="value.length.toString() < Setting.MaxFileCount">
+    <ng-container *ngTemplateOutlet="uploadTemplate"></ng-container>
+  </ng-container>
+</div>
+
+<fd-file-uploader
+  #uploader
+  fd-toolbar-item
+  [style.display]="'none'"
+  [id]="id"
+  [name]="'uploader_' + id"
+  [placeholder]="'AttachPicture' | bbbTranslate"
+  [buttonLabel]="'AttachPicture' | bbbTranslate"
+  [buttonAriaLabel]="'AttachPicture' | bbbTranslate"
+  [accept]="validExtension"
+  [(ngModel)]="files"
+  [multiple]="false"
+  (selectedFilesChanged)="onFileSelection($event)"
+></fd-file-uploader>
+
+<ng-template #uploadTemplate>
+  <div class="upload-container">
+    <h5>{{ context.Setting.CustomUi.Parameters.Title }}</h5>
+    <div class="w-6">
+      <bcc-skeleton-loader
+        [type]="
+          SkeletonsTypes[context.Setting.CustomUi.Parameters.TypeOfSkeleton]
+        "
+      ></bcc-skeleton-loader>
+    </div>
+    <button fd-button label="آپلود" (click)="uploader.open()"></button>
   </div>
-</fd-panel>
+</ng-template>
+
+<div class="lightbox" *ngIf="lightBox.open" (click)="lightBox.open = false">
+  <span style="background-image: url('{{ lightBox.src }}')"></span>
+</div>

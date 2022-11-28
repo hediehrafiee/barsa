@@ -77,7 +77,7 @@
     "secure": false
   },
   "/assets/Images": {
-    "target": "http://localhost:4200",
+    "target": "http://localhost:4101",
     "pathRewrite": {
       "^/assets/Images/": "/assets/images/"
     },
