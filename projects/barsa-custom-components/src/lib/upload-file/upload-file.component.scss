@@ -35,18 +35,46 @@
   align-items: center;
   margin-top: 20px;
   flex-wrap: wrap;
-  img {
-    max-height: 130px;
-    height: 130px;
-    width: 100%;
-    object-fit: cover;
-  }
+  justify-content: stretch;
+
   div {
     margin: 16px;
+    align-self: stretch;
   }
-  p {
-    text-align: center;
-    font-weight: 400;
+
+  fd-card {
+    position: relative;
+    fd-action-sheet {
+      position: absolute;
+      z-index: 2;
+      top: 0px;
+      left: 0px;
+      border: 1px solid;
+      border-radius: 5px;
+      -webkit-box-shadow: var(--fdButton_Hover_Shadow);
+      background-color: var(--sapButton_Lite_Hover_Background);
+      border-color: var(--sapButton_Lite_Hover_BorderColor);
+      box-shadow: var(--fdButton_Hover_Shadow);
+      color: var(--sapButton_Lite_Hover_TextColor);
+    }
+    img {
+      max-height: 150px;
+      height: 150px;
+      height: 150px;
+      width: 160px;
+      object-fit: cover;
+    }
+    .file-name-container {
+      display: flex;
+      justify-content: center;
+      margin: 0;
+      p {
+        text-align: center;
+        font-weight: 400;
+        max-width: 130px;
+        overflow-wrap: break-word;
+      }
+    }
   }
 }
 

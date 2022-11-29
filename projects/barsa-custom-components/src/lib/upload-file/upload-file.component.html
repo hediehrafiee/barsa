@@ -1,9 +1,35 @@
 <div fd-panel-content ariaLabel="Panel Content" id="panel-content-1">
-  <ng-container *ngIf="value.length">
+  <ng-container *ngIf="value2.length">
     <div class="image-container">
-      <ng-container *ngFor="let item of value">
-        <div>
+      <ng-container *ngFor="let item of value2">
+        <div *ngIf="!item.IsDeleted">
           <fd-card>
+            <fd-action-sheet>
+              <fd-action-sheet-control>
+                <li fd-action-sheet-item glyph="settings"></li>
+              </fd-action-sheet-control>
+
+              <fd-action-sheet-body
+                actionSheetBodyId="fd-action-sheet-default-body"
+                ariaLabelledby="fd-action-sheet-default-control"
+                class="icons"
+              >
+                <i
+                  class="red"
+                  fd-action-sheet-item
+                  [label]="'Delete' | bbbTranslate"
+                  glyph="delete"
+                  (click)="onDeleteFile(item.Id)"
+                ></i>
+                <i
+                  class="red"
+                  fd-action-sheet-item
+                  [label]="'Save' | bbbTranslate"
+                  glyph="save"
+                  (click)="onDownloadFile(item.Id)"
+                ></i>
+              </fd-action-sheet-body>
+            </fd-action-sheet>
             <img
               class="cursor-pointer"
               *ngIf="!item.icon"
@@ -12,13 +38,16 @@
               (click)="openLightBox(item.url)"
             />
             <img *ngIf="item.icon" [src]="item.icon" [alt]="item.FileName" />
-            <p>{{ item.FileName }}</p>
+            <div class="file-name-container">
+              <p>{{ item.FileName }}</p>
+            </div>
           </fd-card>
         </div>
       </ng-container>
     </div>
   </ng-container>
-  <ng-container *ngIf="value.length.toString() < Setting.MaxFileCount">
+
+  <ng-container *ngIf="!hasReachedMaxCount">
     <ng-container *ngTemplateOutlet="uploadTemplate"></ng-container>
   </ng-container>
 </div>
