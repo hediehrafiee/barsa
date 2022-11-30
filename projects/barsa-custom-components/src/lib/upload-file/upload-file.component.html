@@ -1,7 +1,7 @@
 <div fd-panel-content ariaLabel="Panel Content" id="panel-content-1">
-  <ng-container *ngIf="value2.length">
+  <ng-container *ngIf="arrayOfValue.length">
     <div class="image-container">
-      <ng-container *ngFor="let item of value2">
+      <ng-container *ngFor="let item of arrayOfValue">
         <div *ngIf="!item.IsDeleted">
           <fd-card>
             <fd-action-sheet>
@@ -71,13 +71,20 @@
   <div class="upload-container">
     <h5>{{ context.Setting.CustomUi.Parameters.Title }}</h5>
     <div class="w-6">
-      <bcc-skeleton-loader
-        [type]="
-          SkeletonsTypes[context.Setting.CustomUi.Parameters.TypeOfSkeleton]
-        "
-      ></bcc-skeleton-loader>
+      <fd-card class="cursor-pointer" (click)="uploader.open()">
+        <fd-card-content>
+          <bcc-skeleton-loader
+            [type]="
+              SkeletonsTypes[context.Setting.CustomUi.Parameters.TypeOfSkeleton]
+            "
+          ></bcc-skeleton-loader>
+        </fd-card-content>
+
+        <div class="icon">
+          <fd-icon glyph="attachment"></fd-icon>
+        </div>
+      </fd-card>
     </div>
-    <button fd-button label="آپلود" (click)="uploader.open()"></button>
   </div>
 </ng-template>
 

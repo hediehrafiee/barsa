@@ -1,6 +1,6 @@
 <ng-container [ngSwitch]="type">
   <ng-container *ngSwitchCase="'BirthCertificat'">
-    <div class="card w-full">
+    <div class="w-full">
       <div class="flex">
         <div>
           <bcc-skeleton [type]="'USER'" [shine]="shine"></bcc-skeleton>
@@ -41,26 +41,28 @@
     </div>
   </ng-container>
   <ng-container *ngSwitchCase="'IdentificationCard'">
-    <div class="flex card w-full">
-      <div>
-        <bcc-skeleton [type]="'USER'" [shine]="shine"></bcc-skeleton>
-      </div>
-      <div class="flex-1 pr-2">
-        <bcc-skeleton
-          [type]="'LINE'"
-          [count]="2"
-          [shine]="shine"
-        ></bcc-skeleton>
-        <bcc-skeleton
-          [type]="'LINE'"
-          [width]="'50%'"
-          [shine]="shine"
-        ></bcc-skeleton>
+    <div class="w-full">
+      <div class="flex">
+        <div>
+          <bcc-skeleton [type]="'USER'" [shine]="shine"></bcc-skeleton>
+        </div>
+        <div class="flex-1 pr-2">
+          <bcc-skeleton
+            [type]="'LINE'"
+            [count]="2"
+            [shine]="shine"
+          ></bcc-skeleton>
+          <bcc-skeleton
+            [type]="'LINE'"
+            [width]="'50%'"
+            [shine]="shine"
+          ></bcc-skeleton>
+        </div>
       </div>
     </div>
   </ng-container>
   <ng-container *ngSwitchCase="'Documents'">
-    <div class="card w-full">
+    <div class="w-full">
       <div class="flex">
         <div>
           <bcc-skeleton

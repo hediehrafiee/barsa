@@ -102,3 +102,18 @@
   background-repeat: no-repeat;
   background-size: contain;
 }
+
+.p-2 {
+  padding: 20px;
+}
+
+.icon {
+  display: flex;
+  justify-content: end;
+  padding: 0px 0px 10px 20px;
+}
+
+fd-card-content {
+  padding: 20px;
+  padding-bottom: 0px;
+}
