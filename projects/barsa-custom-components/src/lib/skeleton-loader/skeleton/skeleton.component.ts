@@ -7,8 +7,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class SkeletonComponent implements OnInit {
   @Input() type: 'LINE' | 'CIRCLE' | 'SQUARE' | 'RECTANGLE' | 'USER' = 'LINE';
-  @Input() width?: string;
-  @Input() height?: string;
+  @Input() width: string;
+  @Input() height: string;
   @Input() count: number = 1;
   @Input() shine: boolean = false;
 

@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import {
   FdDatetimeModule,
   FundamentalNgxCoreModule,
+  TruncateModule,
 } from '@fundamental-ngx/core';
 import { BarsaSapUiModule } from 'barsa-sap-ui';
 
@@ -32,6 +33,7 @@ import { UploadListOfPictureComponent } from './upload-list-of-picture/upload-li
 import { SkeletonLoaderComponent } from './skeleton-loader/skeleton-loader.component';
 import { SkeletonComponent } from './skeleton-loader/skeleton/skeleton.component';
 import { UploadFileComponent } from './upload-file/upload-file.component';
+import { UploadFileCardComponent } from './upload-file/upload-file-card/upload-file-card.component';
 
 const components = [
   FormHorizontalTabComponent,
@@ -42,6 +44,7 @@ const components = [
   UploadListOfPictureComponent,
   SkeletonLoaderComponent,
   UploadFileComponent,
+  UploadFileCardComponent,
 ];
 @NgModule({
   declarations: [
@@ -60,6 +63,7 @@ const components = [
     FdDatetimeModule,
     CdkTableModule,
     DragDropModule,
+    TruncateModule,
   ],
   exports: [],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],

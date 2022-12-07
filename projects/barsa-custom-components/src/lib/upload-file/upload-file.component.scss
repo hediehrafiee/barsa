@@ -8,74 +8,12 @@
     border: none;
   }
 }
+
 #panel-content-1 {
   display: flex;
   flex: 1;
   flex-wrap: wrap;
-}
-.upload-container {
-  margin-top: 8px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: baseline;
-  margin: 16px;
-  width: 25%;
-  button {
-    margin-top: 16px;
-  }
-}
-
-.w-6 {
-  width: 50%;
-}
-
-.image-container {
-  display: flex;
-  align-items: center;
-  margin-top: 20px;
-  flex-wrap: wrap;
-  justify-content: stretch;
-
-  div {
-    margin: 16px;
-    align-self: stretch;
-  }
-
-  fd-card {
-    position: relative;
-    fd-action-sheet {
-      position: absolute;
-      z-index: 2;
-      top: 0px;
-      left: 0px;
-      border: 1px solid;
-      border-radius: 5px;
-      -webkit-box-shadow: var(--fdButton_Hover_Shadow);
-      background-color: var(--sapButton_Lite_Hover_Background);
-      border-color: var(--sapButton_Lite_Hover_BorderColor);
-      box-shadow: var(--fdButton_Hover_Shadow);
-      color: var(--sapButton_Lite_Hover_TextColor);
-    }
-    img {
-      max-height: 150px;
-      height: 150px;
-      height: 150px;
-      width: 160px;
-      object-fit: cover;
-    }
-    .file-name-container {
-      display: flex;
-      justify-content: center;
-      margin: 0;
-      p {
-        text-align: center;
-        font-weight: 400;
-        max-width: 130px;
-        overflow-wrap: break-word;
-      }
-    }
-  }
+  gap: 16px;
 }
 
 .lightbox {
@@ -103,17 +41,17 @@
   background-size: contain;
 }
 
-.p-2 {
-  padding: 20px;
-}
-
-.icon {
+.image-container {
   display: flex;
-  justify-content: end;
-  padding: 0px 0px 10px 20px;
-}
+  gap: 16px;
+  flex-wrap: wrap;
+  // align-items: center;
+  // margin-top: 20px;
+  // flex-wrap: wrap;
+  // justify-content: stretch;
 
-fd-card-content {
-  padding: 20px;
-  padding-bottom: 0px;
+  // div {
+  //   margin: 16px;
+  //   align-self: stretch;
+  // }
 }

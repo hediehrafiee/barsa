@@ -1,55 +1,31 @@
 <div fd-panel-content ariaLabel="Panel Content" id="panel-content-1">
-  <ng-container *ngIf="arrayOfValue.length">
-    <div class="image-container">
+  <div class="image-container">
+    <ng-container *ngIf="arrayOfValue.length">
       <ng-container *ngFor="let item of arrayOfValue">
-        <div *ngIf="!item.IsDeleted">
-          <fd-card>
-            <fd-action-sheet>
-              <fd-action-sheet-control>
-                <li fd-action-sheet-item glyph="settings"></li>
-              </fd-action-sheet-control>
-
-              <fd-action-sheet-body
-                actionSheetBodyId="fd-action-sheet-default-body"
-                ariaLabelledby="fd-action-sheet-default-control"
-                class="icons"
-              >
-                <i
-                  class="red"
-                  fd-action-sheet-item
-                  [label]="'Delete' | bbbTranslate"
-                  glyph="delete"
-                  (click)="onDeleteFile(item.Id)"
-                ></i>
-                <i
-                  class="red"
-                  fd-action-sheet-item
-                  [label]="'Save' | bbbTranslate"
-                  glyph="save"
-                  (click)="onDownloadFile(item.Id)"
-                ></i>
-              </fd-action-sheet-body>
-            </fd-action-sheet>
-            <img
-              class="cursor-pointer"
-              *ngIf="!item.icon"
-              [src]="item.url"
-              [alt]="item.FileName"
-              (click)="openLightBox(item.url)"
-            />
-            <img *ngIf="item.icon" [src]="item.icon" [alt]="item.FileName" />
-            <div class="file-name-container">
-              <p>{{ item.FileName }}</p>
-            </div>
-          </fd-card>
-        </div>
+        <ng-container *ngIf="!item.IsDeleted">
+          <bcc-upload-file-card
+            [fileItem]="item"
+            [context]="context"
+            [fileIsUploaded]="true"
+            (buttonTypeAction)="clickAction($event)"
+          ></bcc-upload-file-card>
+        </ng-container>
       </ng-container>
-    </div>
-  </ng-container>
+    </ng-container>
 
-  <ng-container *ngIf="!hasReachedMaxCount">
-    <ng-container *ngTemplateOutlet="uploadTemplate"></ng-container>
-  </ng-container>
+    <!-- <ng-container *ngIf="!hasReachedMaxCount"> -->
+    <ng-continer
+      *ngFor="let file of context.Setting.CustomUi.Parameters.Files.MoDataList"
+    >
+      <bcc-upload-file-card
+        [context]="context"
+        [file]="file"
+        [fileIsUploaded]="false"
+        (buttonTypeAction)="clickAction($event)"
+      ></bcc-upload-file-card>
+    </ng-continer>
+    <!-- </ng-container> -->
+  </div>
 </div>
 
 <fd-file-uploader
@@ -66,27 +42,6 @@
   [multiple]="false"
   (selectedFilesChanged)="onFileSelection($event)"
 ></fd-file-uploader>
-
-<ng-template #uploadTemplate>
-  <div class="upload-container">
-    <h5>{{ context.Setting.CustomUi.Parameters.Title }}</h5>
-    <div class="w-6">
-      <fd-card class="cursor-pointer" (click)="uploader.open()">
-        <fd-card-content>
-          <bcc-skeleton-loader
-            [type]="
-              SkeletonsTypes[context.Setting.CustomUi.Parameters.TypeOfSkeleton]
-            "
-          ></bcc-skeleton-loader>
-        </fd-card-content>
-
-        <div class="icon">
-          <fd-icon glyph="attachment"></fd-icon>
-        </div>
-      </fd-card>
-    </div>
-  </div>
-</ng-template>
 
 <div class="lightbox" *ngIf="lightBox.open" (click)="lightBox.open = false">
   <span style="background-image: url('{{ lightBox.src }}')"></span>

@@ -1,0 +1,79 @@
+<fd-card
+  class="cursor-pointer"
+  (click)="onClick(UploadFileCardActionType.UPLOAD)"
+  [ngClass]="{
+    'file-uploaded': fileIsUploaded,
+    compact: !!context.Setting.CustomUi.Parameters.Compact
+  }"
+>
+  <fd-card-header class="custom-header">
+    <h5 [ngClass]="{ required: file?.IsRequire }" fd-card-title>
+      {{ file?.Title || "شناسنامه" }}
+    </h5>
+  </fd-card-header>
+  <fd-card-content>
+    <ng-container *ngIf="fileIsUploaded; else fileNotUploaded">
+      <img
+        class="cursor-pointer"
+        *ngIf="!fileItem.icon"
+        [src]="fileItem.url"
+        [alt]="fileItem.FileName"
+      />
+      <img
+        *ngIf="fileItem.icon"
+        [src]="fileItem.icon"
+        [alt]="fileItem.FileName"
+      />
+      <div
+        class="file-name-container"
+        *ngIf="!context.Setting.CustomUi.Parameters.Compact"
+      >
+        <div class="file-name">
+          <p
+            [ngClass]="{ 'long-file-name': fileItem.FileName.length > 30 }"
+            fd-truncate
+            [fdTruncateState]="true"
+            [fdTruncateWidth]="100"
+          >
+            {{ fileItem.FileName }}
+          </p>
+          <div>
+            {{ fileItem.FileName }}
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #fileNotUploaded>
+      <bcc-skeleton-loader
+        [type]="SkeletonsTypes[file.TypeOfSkeleton]"
+      ></bcc-skeleton-loader>
+    </ng-template>
+  </fd-card-content>
+
+  <fd-card-footer>
+    <ng-container *ngIf="fileIsUploaded; else fileNotUpload">
+      <i
+        fd-action-sheet-item
+        glyph="delete"
+        (click)="onClick(UploadFileCardActionType.DELETE, fileItem.Id)"
+      ></i>
+
+      <i
+        fd-action-sheet-item
+        glyph="save"
+        (click)="onClick(UploadFileCardActionType.SAVE, fileItem.Id)"
+      ></i>
+      <i
+        *ngIf="!fileItem.icon"
+        fd-action-sheet-item
+        glyph="show"
+        (click)="
+          onClick(UploadFileCardActionType.ZOOM, fileItem.Id, fileItem.url)
+        "
+      ></i>
+    </ng-container>
+    <ng-template #fileNotUpload>
+      <i fd-action-sheet-item glyph="sys-add"></i>
+    </ng-template>
+  </fd-card-footer>
+</fd-card>

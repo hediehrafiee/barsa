@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FileAttachmentInfo,
   getIcon,
@@ -6,7 +6,9 @@ import {
   UploadService,
 } from 'barsa-novin-ray-core';
 import { UiPdfViewerComponent } from 'barsa-sap-ui';
+import { AttachmentIconTypes } from '../emums/attachmentIconTypes';
 import { SkeletonsTypes } from '../emums/sketonsTypes';
+import { UploadFileCardActionType } from '../emums/uploadFileCardActionType';
 
 @Component({
   selector: 'bcc-upload-file',
@@ -18,7 +20,9 @@ export class UploadFileComponent
   extends UiPdfViewerComponent
   implements OnInit
 {
+  public UploadFileCardActionType = UploadFileCardActionType;
   public SkeletonsTypes = SkeletonsTypes;
+  public AttachmentIconTypes = AttachmentIconTypes;
   public itemsAdded = 1;
 
   public lightBox: {
@@ -28,14 +32,17 @@ export class UploadFileComponent
     open: false,
   };
 
-  @ViewChild('container', { read: ViewContainerRef })
-  container: ViewContainerRef;
+  @ViewChild('uploader', { static: false })
+  uploader;
+
   arrayOfValue: FileAttachmentInfo[] = [];
   hasReachedMaxCount = false;
   ngOnInit(): void {
     super.ngOnInit();
+    console.log('hrees');
   }
   protected _setValue(value: any): void {
+    console.log('inja');
     const arrayOfValue = Array.isArray(value) ? value : value ? [value] : [];
     for (let v of arrayOfValue) {
       v.url = getImagePath('ID', '', v.Id);
@@ -72,5 +79,41 @@ export class UploadFileComponent
 
   onDownloadFile(id: string) {
     this.context.fireEvent('CommandRequest', this, 'Download', id);
+  }
+
+  protected _updateValue(value: any[]): void {
+    const arrayOfValue = Array.isArray(value) ? value : value ? [value] : [];
+    for (let v of arrayOfValue) {
+      v.url = getImagePath('ID', '', v.Id);
+      v.icon = getIcon(v.Type);
+      v.IsDeleted = false;
+    }
+    this.arrayOfValue = arrayOfValue;
+    console.log(this.arrayOfValue);
+  }
+
+  clickAction(event: {
+    id?: string;
+    url?: string;
+    type: UploadFileCardActionType;
+  }) {
+    switch (event.type) {
+      case this.UploadFileCardActionType.UPLOAD:
+        this.uploader.open();
+        break;
+
+      case this.UploadFileCardActionType.SAVE:
+        this.onDownloadFile(event.id as string);
+        break;
+
+      case this.UploadFileCardActionType.DELETE:
+        this.onDeleteFile(event.id as string);
+        break;
+
+      case this.UploadFileCardActionType.ZOOM:
+        console.log('here');
+        this.openLightBox(event.url as string);
+        break;
+    }
   }
 }
