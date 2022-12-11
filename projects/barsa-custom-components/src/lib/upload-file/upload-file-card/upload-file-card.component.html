@@ -14,7 +14,6 @@
   <fd-card-content>
     <ng-container *ngIf="fileIsUploaded; else fileNotUploaded">
       <img
-        class="cursor-pointer"
         *ngIf="!file.items.icon"
         [src]="file.items.url"
         [alt]="file.items.FileName"

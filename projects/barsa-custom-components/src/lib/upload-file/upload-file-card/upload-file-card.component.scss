@@ -147,3 +147,13 @@ fd-card-footer {
     color: red;
   }
 }
+
+.cursor-defualt {
+  .custom-header,
+  .fd-card__content {
+    cursor: default;
+    &:hover {
+      background-color: unset;
+    }
+  }
+}
