@@ -1,30 +1,13 @@
 <div fd-panel-content ariaLabel="Panel Content" id="panel-content-1">
   <div class="image-container">
-    <ng-container *ngIf="arrayOfValue.length">
-      <ng-container *ngFor="let item of arrayOfValue">
-        <ng-container *ngIf="!item.IsDeleted">
-          <bcc-upload-file-card
-            [fileItem]="item"
-            [context]="context"
-            [fileIsUploaded]="true"
-            (buttonTypeAction)="clickAction($event)"
-          ></bcc-upload-file-card>
-        </ng-container>
-      </ng-container>
-    </ng-container>
-
-    <!-- <ng-container *ngIf="!hasReachedMaxCount"> -->
-    <ng-continer
-      *ngFor="let file of context.Setting.CustomUi.Parameters.Files.MoDataList"
-    >
+    <ng-continer *ngFor="let file of filesMaped; let i = index">
       <bcc-upload-file-card
         [context]="context"
         [file]="file"
-        [fileIsUploaded]="false"
-        (buttonTypeAction)="clickAction($event)"
+        [fileIsUploaded]="file.items && !file?.items?.IsDeleted ? true : false"
+        (buttonTypeAction)="clickAction($event, i)"
       ></bcc-upload-file-card>
     </ng-continer>
-    <!-- </ng-container> -->
   </div>
 </div>
 

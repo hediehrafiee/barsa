@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { LayoutSetting } from 'barsa-novin-ray-core';
 
 @Component({
   selector: 'app-menu',

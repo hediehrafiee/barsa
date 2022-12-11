@@ -1,13 +1,25 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
 import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
+import {
+  BbbTranslatePipe,
+  DateService,
   FileAttachmentInfo,
   getIcon,
   getImagePath,
+  NumeralPipe,
+  PictureFieldSourcePipe,
+  PortalService,
   UploadService,
 } from 'barsa-novin-ray-core';
 import { UiPdfViewerComponent } from 'barsa-sap-ui';
-import { AttachmentIconTypes } from '../emums/attachmentIconTypes';
-import { SkeletonsTypes } from '../emums/sketonsTypes';
 import { UploadFileCardActionType } from '../emums/uploadFileCardActionType';
 
 @Component({
@@ -21,8 +33,7 @@ export class UploadFileComponent
   implements OnInit
 {
   public UploadFileCardActionType = UploadFileCardActionType;
-  public SkeletonsTypes = SkeletonsTypes;
-  public AttachmentIconTypes = AttachmentIconTypes;
+
   public itemsAdded = 1;
 
   public lightBox: {
@@ -35,37 +46,19 @@ export class UploadFileComponent
   @ViewChild('uploader', { static: false })
   uploader;
 
-  arrayOfValue: FileAttachmentInfo[] = [];
-  hasReachedMaxCount = false;
+  private selectedCardIndex: number = -1;
+  public filesMaped;
+  public requiredCount: number = 0;
+  public calcuteRequiredCount: number = 0;
+
   ngOnInit(): void {
     super.ngOnInit();
-    console.log('hrees');
-  }
-  protected _setValue(value: any): void {
-    console.log('inja');
-    const arrayOfValue = Array.isArray(value) ? value : value ? [value] : [];
-    for (let v of arrayOfValue) {
-      v.url = getImagePath('ID', '', v.Id);
-      v.icon = getIcon(v.Type);
-    }
-    this.arrayOfValue = arrayOfValue;
-    this.checkMaxFilesCount(arrayOfValue.filter((c) => !c.IsDeleted));
-    super._setValue(value);
-  }
+    this.filesMaped = this.context.Setting.CustomUi.Parameters.Files.MoDataList;
+    this.requiredCount = this.filesMaped.filter(
+      (file) => file.IsRequire === true
+    ).length;
 
-  private checkMaxFilesCount(value: any) {
-    const setting = this.Setting;
-    let maxFiles = 0;
-
-    if (setting.IsSignleFile) {
-      maxFiles = 1;
-    } else {
-      const maxFilesSetting = Number(setting.MaxFileCount);
-      maxFiles = isNaN(maxFilesSetting) ? 0 : maxFilesSetting;
-    }
-
-    this.hasReachedMaxCount =
-      maxFiles === 0 ? false : this.arrayOfValue.length >= maxFiles;
+    this._updateValue(this.value);
   }
 
   openLightBox(url: string) {
@@ -73,8 +66,15 @@ export class UploadFileComponent
     this.lightBox.src = url;
   }
 
-  onDeleteFile(id: string) {
-    this.context.fireEvent('CommandRequest', this, 'Delete', id);
+  onDeleteFile(id: string, index) {
+    setTimeout(() => {
+      this.filesMaped[index].items.IsDeleted = true;
+      this._cdr.detectChanges();
+    }, 1);
+    if (this.filesMaped[index].IsRequire) {
+      if (this.calcuteRequiredCount > 0) this.calcuteRequiredCount--;
+      this._checkSetValueOrClear();
+    }
   }
 
   onDownloadFile(id: string) {
@@ -83,22 +83,49 @@ export class UploadFileComponent
 
   protected _updateValue(value: any[]): void {
     const arrayOfValue = Array.isArray(value) ? value : value ? [value] : [];
-    for (let v of arrayOfValue) {
-      v.url = getImagePath('ID', '', v.Id);
-      v.icon = getIcon(v.Type);
-      v.IsDeleted = false;
+    for (let i = 0; i < arrayOfValue.length; i++) {
+      arrayOfValue[i].url = getImagePath('ID', '', arrayOfValue[i].FileId);
+      arrayOfValue[i].icon = getIcon(arrayOfValue[i].FileName.split('.')[1]);
+      arrayOfValue[i].IsDeleted = false;
+
+      if (this.selectedCardIndex === -1 && this.filesMaped[i])
+        this.filesMaped[i].items = arrayOfValue[i];
     }
-    this.arrayOfValue = arrayOfValue;
-    console.log(this.arrayOfValue);
+    if (this.selectedCardIndex !== -1) {
+      this.filesMaped[this.selectedCardIndex].items = {
+        index: this.selectedCardIndex,
+        ...arrayOfValue[0],
+      };
+    }
+
+    if (this.filesMaped[this.selectedCardIndex]?.IsRequire) {
+      this.calcuteRequiredCount++;
+      this._checkSetValueOrClear();
+    }
+
+    this._cdr.detectChanges();
   }
 
-  clickAction(event: {
-    id?: string;
-    url?: string;
-    type: UploadFileCardActionType;
-  }) {
+  _checkSetValueOrClear() {
+    if (this.calcuteRequiredCount === this.requiredCount) {
+      const files = this.filesMaped.map((item) => item.items);
+      this.fireContextEvent('Change', this.context, files);
+    } else {
+      this.context.fireEvent('CommandRequest', this, 'Clear');
+    }
+  }
+
+  clickAction(
+    event: {
+      id?: string;
+      url?: string;
+      type: UploadFileCardActionType;
+    },
+    index?
+  ) {
     switch (event.type) {
       case this.UploadFileCardActionType.UPLOAD:
+        this.selectedCardIndex = index;
         this.uploader.open();
         break;
 
@@ -107,11 +134,10 @@ export class UploadFileComponent
         break;
 
       case this.UploadFileCardActionType.DELETE:
-        this.onDeleteFile(event.id as string);
+        this.onDeleteFile(event.id as string, index);
         break;
 
       case this.UploadFileCardActionType.ZOOM:
-        console.log('here');
         this.openLightBox(event.url as string);
         break;
     }

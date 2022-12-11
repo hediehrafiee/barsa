@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AttachmentIconTypes } from '../../emums/attachmentIconTypes';
 import { SkeletonsTypes } from '../../emums/sketonsTypes';
 import { UploadFileCardActionType } from '../../emums/uploadFileCardActionType';
 
@@ -10,7 +9,6 @@ import { UploadFileCardActionType } from '../../emums/uploadFileCardActionType';
 })
 export class UploadFileCardComponent implements OnInit {
   public SkeletonsTypes = SkeletonsTypes;
-  public AttachmentIconTypes = AttachmentIconTypes;
   public UploadFileCardActionType = UploadFileCardActionType;
 
   @Input() fileIsUploaded: boolean = false;

@@ -4,13 +4,11 @@ import {
   map,
   BehaviorSubject,
   combineLatest,
-  shareReplay,
   tap,
   filter,
 } from 'rxjs';
 import { Menu } from '../interfaces/menu';
 import { LayoutSetting } from 'barsa-novin-ray-core';
-import { layout } from 'echarts/types/src/layout/barGrid';
 
 @Injectable({
   providedIn: 'root',
@@ -77,9 +75,6 @@ export class TabsService {
     destination: any[] = []
   ): LayoutSetting[] {
     for (let item of items) {
-      // console.log(
-      //   item.FieldUi?.Setting?.FormPanelSetting?.View?.Layout94?.items
-      // );
       if (
         item.xtype === 'Ly.LayoutTabPage' &&
         item.Title &&

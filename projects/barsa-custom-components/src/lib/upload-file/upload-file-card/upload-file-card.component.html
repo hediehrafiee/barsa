@@ -1,9 +1,9 @@
 <fd-card
-  class="cursor-pointer"
   (click)="onClick(UploadFileCardActionType.UPLOAD)"
   [ngClass]="{
-    'file-uploaded': fileIsUploaded,
-    compact: !!context.Setting.CustomUi.Parameters.Compact
+    'file-uploaded, cursor-defualt': fileIsUploaded,
+    compact: !!context.Setting.CustomUi.Parameters.Compact,
+    'cursor-pointer': !fileIsUploaded
   }"
 >
   <fd-card-header class="custom-header">
@@ -15,14 +15,14 @@
     <ng-container *ngIf="fileIsUploaded; else fileNotUploaded">
       <img
         class="cursor-pointer"
-        *ngIf="!fileItem.icon"
-        [src]="fileItem.url"
-        [alt]="fileItem.FileName"
+        *ngIf="!file.items.icon"
+        [src]="file.items.url"
+        [alt]="file.items.FileName"
       />
       <img
-        *ngIf="fileItem.icon"
-        [src]="fileItem.icon"
-        [alt]="fileItem.FileName"
+        *ngIf="file.items.icon"
+        [src]="file.items.icon"
+        [alt]="file.items.FileName"
       />
       <div
         class="file-name-container"
@@ -30,15 +30,15 @@
       >
         <div class="file-name">
           <p
-            [ngClass]="{ 'long-file-name': fileItem.FileName.length > 30 }"
+            [ngClass]="{ 'long-file-name': file.items.length > 30 }"
             fd-truncate
             [fdTruncateState]="true"
             [fdTruncateWidth]="100"
           >
-            {{ fileItem.FileName }}
+            {{ file.items.FileName }}
           </p>
           <div>
-            {{ fileItem.FileName }}
+            {{ file.items.FileName }}
           </div>
         </div>
       </div>
@@ -55,20 +55,24 @@
       <i
         fd-action-sheet-item
         glyph="delete"
-        (click)="onClick(UploadFileCardActionType.DELETE, fileItem.Id)"
+        (click)="onClick(UploadFileCardActionType.DELETE, file.items.FileId)"
       ></i>
 
       <i
         fd-action-sheet-item
         glyph="save"
-        (click)="onClick(UploadFileCardActionType.SAVE, fileItem.Id)"
+        (click)="onClick(UploadFileCardActionType.SAVE, file.items.FileId)"
       ></i>
       <i
-        *ngIf="!fileItem.icon"
+        *ngIf="!file.items.icon"
         fd-action-sheet-item
         glyph="show"
         (click)="
-          onClick(UploadFileCardActionType.ZOOM, fileItem.Id, fileItem.url)
+          onClick(
+            UploadFileCardActionType.ZOOM,
+            file.items.FileId,
+            file.items.url
+          )
         "
       ></i>
     </ng-container>
