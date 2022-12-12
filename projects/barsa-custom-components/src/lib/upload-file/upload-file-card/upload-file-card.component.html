@@ -28,8 +28,9 @@
         *ngIf="!context.Setting.CustomUi.Parameters.Compact"
       >
         <div class="file-name">
+          {{ file.items.FileName.length }}
           <p
-            [ngClass]="{ 'long-file-name': file.items.length > 30 }"
+            [ngClass]="{ 'long-file-name': file.items.FileName.length > 15 }"
             fd-truncate
             [fdTruncateState]="true"
             [fdTruncateWidth]="100"
