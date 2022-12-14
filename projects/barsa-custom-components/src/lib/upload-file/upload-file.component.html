@@ -1,12 +1,6 @@
 <div fd-panel-content ariaLabel="Panel Content" id="panel-content-1">
   <div class="image-container">
-    <ng-continer *ngFor="let file of filesMaped; let i = index">
-      <bcc-upload-file-card
-        [context]="context"
-        [file]="file"
-        [fileIsUploaded]="file.items && !file?.items?.IsDeleted ? true : false"
-        (buttonTypeAction)="clickAction($event, i)"
-      ></bcc-upload-file-card>
+    <ng-continer *ngTemplateOutlet="viewer; context: { $implicit: filesMaped }">
     </ng-continer>
   </div>
 </div>
@@ -29,3 +23,18 @@
 <div class="lightbox" *ngIf="lightBox.open" (click)="lightBox.open = false">
   <span style="background-image: url('{{ lightBox.src }}')"></span>
 </div>
+
+<ng-template #viewer let-filesMaped>
+  <bcc-upload-file-card
+    *ngFor="let file of filesMaped; let i = index"
+    [compact]="compact"
+    [title]="file.Title"
+    [value]="file.indexValue !== null ? value[file.indexValue] : null"
+    [isRequire]="file.IsRequire"
+    [skeleton]="file.TypeOfSkeleton"
+    (delete)="onDetele($event, file.indexValue, i)"
+    (save)="onSave($event, file.indexValue)"
+    (preview)="onPreview($event, file.indexValue)"
+    (upload)="onUpload($event, i)"
+  ></bcc-upload-file-card>
+</ng-template>

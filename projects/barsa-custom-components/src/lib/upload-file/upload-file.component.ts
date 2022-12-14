@@ -1,27 +1,18 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  OnInit,
-  Renderer2,
-  ViewChild,
-} from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
-import {
-  BbbTranslatePipe,
-  DateService,
   FileAttachmentInfo,
   getIcon,
   getImagePath,
-  NumeralPipe,
-  PictureFieldSourcePipe,
-  PortalService,
+  MetaobjectDataModel,
+  PreventDefaulEvent,
   UploadService,
 } from 'barsa-novin-ray-core';
 import { UiPdfViewerComponent } from 'barsa-sap-ui';
-import { UploadFileCardActionType } from '../emums/uploadFileCardActionType';
-
+import { BehaviorSubject, map, Observable, takeUntil, tap } from 'rxjs';
+interface FileMapped extends MetaobjectDataModel {
+  IsRequire: boolean;
+  indexValue: number | null;
+}
 @Component({
   selector: 'bcc-upload-file',
   templateUrl: './upload-file.component.html',
@@ -32,10 +23,6 @@ export class UploadFileComponent
   extends UiPdfViewerComponent
   implements OnInit
 {
-  public UploadFileCardActionType = UploadFileCardActionType;
-
-  public itemsAdded = 1;
-
   public lightBox: {
     open: boolean;
     src?: string;
@@ -47,99 +34,54 @@ export class UploadFileComponent
   uploader;
 
   private selectedCardIndex: number = -1;
-  public filesMaped;
-  public requiredCount: number = 0;
-  public calcuteRequiredCount: number = 0;
+  filesMaped: FileMapped[] = [];
+  compact: boolean;
 
   ngOnInit(): void {
     super.ngOnInit();
+    this.compact = this.context.Setting.CustomUi.Parameters.Compact;
     this.filesMaped = this.context.Setting.CustomUi.Parameters.Files.MoDataList;
-    this.requiredCount = this.filesMaped.filter(
-      (file) => file.IsRequire === true
-    ).length;
-
-    this._updateValue(this.value);
+    this.filesMaped.forEach(
+      (c, i) => (c.indexValue = i < this.value.length ? i : null)
+    );
   }
 
-  openLightBox(url: string) {
+  onDetele(event, indexValue: number, i: number) {
+    PreventDefaulEvent(event);
+    this._deleteFile(this.value[indexValue].Id, i);
+  }
+  onSave(event, indexValue: number) {
+    PreventDefaulEvent(event);
+    this._downloadFile(this.value[indexValue].Id);
+  }
+  onPreview(event, indexValue: number) {
+    PreventDefaulEvent(event);
+    this._openLightBox(this.value[indexValue].url);
+  }
+  onUpload(event, index: number) {
+    this.selectedCardIndex = index;
+    this.uploader.open();
+  }
+
+  protected _downloadFile(id: string) {
+    this.context.fireEvent('CommandRequest', this.context, 'Download', id);
+  }
+
+  protected _setValue(value: any): void {
+    if (this.selectedCardIndex !== -1) {
+      this.filesMaped[this.selectedCardIndex].indexValue = value.length - 1;
+      this.selectedCardIndex = -1;
+    }
+    super._setValue(value);
+  }
+
+  protected _openLightBox(url: string) {
     this.lightBox.open = true;
     this.lightBox.src = url;
   }
 
-  onDeleteFile(id: string, index) {
-    setTimeout(() => {
-      this.filesMaped[index].items.IsDeleted = true;
-      this._cdr.detectChanges();
-    }, 1);
-    if (this.filesMaped[index].IsRequire) {
-      if (this.calcuteRequiredCount > 0) this.calcuteRequiredCount--;
-      this._checkSetValueOrClear();
-    }
-  }
-
-  onDownloadFile(id: string) {
-    this.context.fireEvent('CommandRequest', this, 'Download', id);
-  }
-
-  protected _updateValue(value: any[]): void {
-    const arrayOfValue = Array.isArray(value) ? value : value ? [value] : [];
-    for (let i = 0; i < arrayOfValue.length; i++) {
-      arrayOfValue[i].url = getImagePath('ID', '', arrayOfValue[i].FileId);
-      arrayOfValue[i].icon = getIcon(arrayOfValue[i].FileName.split('.')[1]);
-      arrayOfValue[i].IsDeleted = false;
-
-      if (this.selectedCardIndex === -1 && this.filesMaped[i])
-        this.filesMaped[i].items = arrayOfValue[i];
-    }
-    if (this.selectedCardIndex !== -1) {
-      this.filesMaped[this.selectedCardIndex].items = {
-        index: this.selectedCardIndex,
-        ...arrayOfValue[0],
-      };
-    }
-
-    if (this.filesMaped[this.selectedCardIndex]?.IsRequire) {
-      this.calcuteRequiredCount++;
-      this._checkSetValueOrClear();
-    }
-
-    this._cdr.detectChanges();
-  }
-
-  _checkSetValueOrClear() {
-    if (this.calcuteRequiredCount === this.requiredCount) {
-      const files = this.filesMaped.map((item) => item.items);
-      this.fireContextEvent('Change', this.context, files);
-    } else {
-      this.context.fireEvent('CommandRequest', this, 'Clear');
-    }
-  }
-
-  clickAction(
-    event: {
-      id?: string;
-      url?: string;
-      type: UploadFileCardActionType;
-    },
-    index?
-  ) {
-    switch (event.type) {
-      case this.UploadFileCardActionType.UPLOAD:
-        this.selectedCardIndex = index;
-        this.uploader.open();
-        break;
-
-      case this.UploadFileCardActionType.SAVE:
-        this.onDownloadFile(event.id as string);
-        break;
-
-      case this.UploadFileCardActionType.DELETE:
-        this.onDeleteFile(event.id as string, index);
-        break;
-
-      case this.UploadFileCardActionType.ZOOM:
-        this.openLightBox(event.url as string);
-        break;
-    }
+  protected _deleteFile(id: string, index: number) {
+    this.filesMaped[index].indexValue = null;
+    this.context.fireEvent('CommandRequest', this.context, 'Delete', id);
   }
 }

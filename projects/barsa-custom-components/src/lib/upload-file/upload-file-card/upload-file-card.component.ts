@@ -1,56 +1,48 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FileAttachmentInfo } from 'barsa-novin-ray-core';
 import { SkeletonsTypes } from '../../emums/sketonsTypes';
-import { UploadFileCardActionType } from '../../emums/uploadFileCardActionType';
 
 @Component({
   selector: 'bcc-upload-file-card',
   templateUrl: './upload-file-card.component.html',
   styleUrls: ['./upload-file-card.component.scss'],
 })
-export class UploadFileCardComponent implements OnInit {
+export class UploadFileCardComponent {
   public SkeletonsTypes = SkeletonsTypes;
-  public UploadFileCardActionType = UploadFileCardActionType;
 
-  @Input() fileIsUploaded: boolean = false;
-  @Input() fileItem;
-  @Input() context;
-  @Input() file;
-  @Output() buttonTypeAction = new EventEmitter<{
-    id?: string;
-    url?: string;
-    type: UploadFileCardActionType;
-  }>();
+  @Input() value: FileAttachmentInfo;
+  @Input() skeleton: string;
+  @Input() title: string;
+  @Input() isRequire: boolean;
+  @Input() compact: boolean;
 
-  constructor() {}
+  @Output() delete = new EventEmitter<any>();
+  @Output() save = new EventEmitter<any>();
+  @Output() preview = new EventEmitter<any>();
+  @Output() upload = new EventEmitter<any>();
 
-  ngOnInit(): void {}
+  get filename() {
+    return this.value.FileName;
+  }
+  get icon() {
+    return this.value.Icon;
+  }
+  get id() {
+    return this.value.Id;
+  }
+  onDetele($event) {
+    this.delete.emit($event);
+  }
 
-  onClick(type: UploadFileCardActionType, id?: string, url?: string) {
-    if (!this.fileIsUploaded && type == this.UploadFileCardActionType.UPLOAD) {
-      this.buttonTypeAction.emit({
-        type: this.UploadFileCardActionType.UPLOAD,
-      });
-    } else {
-      switch (type) {
-        case this.UploadFileCardActionType.DELETE:
-          this.buttonTypeAction.emit({
-            id,
-            type: this.UploadFileCardActionType.DELETE,
-          });
-          break;
-        case this.UploadFileCardActionType.SAVE:
-          this.buttonTypeAction.emit({
-            id,
-            type: this.UploadFileCardActionType.SAVE,
-          });
-          break;
-        case this.UploadFileCardActionType.ZOOM:
-          this.buttonTypeAction.emit({
-            url,
-            type: this.UploadFileCardActionType.ZOOM,
-          });
-          break;
-      }
-    }
+  onSave($event) {
+    this.save.emit($event);
+  }
+
+  onPreview($event) {
+    this.preview.emit($event);
+  }
+
+  onUpload($event) {
+    this.upload.emit($event);
   }
 }
